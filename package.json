@@ -1,6 +1,6 @@
 {
   "name": "krx-market-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "KRX 시세·상장정보 MCP 서버 — KRX OpenAPI 인증키로 승인된 주식·지수·ETF·채권·일반상품 일별 데이터와 상장 종목기본정보를 실시간 조회",
   "type": "module",
   "scripts": {

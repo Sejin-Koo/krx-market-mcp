@@ -66,7 +66,9 @@ await call("krx_get_stock_daily", { market: "KOSPI", bas_dd: "2026-10-05", summa
 await call("krx_list_listed", { market: "KOSPI", bas_dd: "2026-10-04", summary_only: true }, (b) => b.사용기준일.KOSPI === "2026-10-04", "[기본정보는 휴일 스냅샷 제공]");
 await call("krx_list_listed", { market: "KOSDAQ", bas_dd: "20261006", query: "스팩", sect: "관리종목" }, (b) => b.필터결과건수 === 5, "[관리종목 스팩 5]");
 await call("krx_list_listed", { market: "ALL", bas_dd: "20261006", operating_only: true, limit: 3, sort: "list_date_desc" }, (b) => b.필터결과건수 === 805 + 1750 + 107 && b.잘림 === true);
-await call("krx_list_listed", { market: "KOSPI", bas_dd: "20100104", summary_only: true }, (b) => b.시장별집계.KOSPI.종목수 === 925, "[2010-01-04 925]");
+await call("krx_list_listed", { market: "KOSPI", bas_dd: "20100104", summary_only: true }, (b) => { const k = b.시장별집계.KOSPI; return k.종목수 === 925 && k.보통주_회사수 === 770 && k.영업회사_제외내역.선박투자회사 === 43 && k.영업회사수 === 714 && k.보통주중_주식예탁증권 === 1; }, "[2010-01-04: 925/770/714, 선박투자회사 43, 옛 이름 DR]");
+await call("krx_get_stock_daily", { market: "KOSDAQ", bas_dd: "20210415", codes: ["263750"] }, (b) => { const r = b.종목[0]; return r.거래없음 === true && r.시가 === null && r.저가 === null && r.종가 === 336500; }, "[거래정지일 시가·고가·저가 null]");
+await call("krx_get_stock_daily", { market: "KOSDAQ", bas_dd: "20210416", codes: ["263750"] }, (b) => { const r = b.종목[0]; return !("거래없음" in r) && r.시가 === 71900; }, "[정상 거래일은 그대로]");
 
 // ── 시세 ──
 await call("krx_get_stock_daily", { codes: ["005930", "000660", "263750", "999999"], bas_dd: "20261006" }, (b) => b.반환건수 === 3 && b.미발견코드[0] === "999999");
