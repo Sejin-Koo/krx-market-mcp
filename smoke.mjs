@@ -75,9 +75,12 @@ await call("krx_get_stock_daily", { market: "KOSPI", bas_dd: "20261006", sort: "
 await call("krx_get_index_daily", { bas_dd: "20261006", query: "코스피 200" }, (b) => b["KOSPI 시리즈 일별시세정보"].반환건수 >= 1);
 await call("krx_get_index_daily", { series: "ALL", bas_dd: "20261006" }, (b) => b["KRX 시리즈 일별시세정보"].전체건수 === 40 && b["채권지수 시세정보"].전체건수 === 3 && b["KOSPI 시리즈 일별시세정보"].전체건수 === 54);
 await call("krx_get_etf_daily", { bas_dd: "20261006", limit: 3 }, (b) => b.합계_전체.ETF수 === 1171 && b.ETF.length === 3);
+await call("krx_get_etf_daily", { bas_dd: "20261006", codes: ["069500"], fields: "all" }, (b) => b.ETF[0].상장좌수 > 0 && !("상장주식수" in b.ETF[0]), "[명세서 라벨: 상장좌수]");
+await call("krx_get_index_daily", { series: "BOND", bas_dd: "20261006" }, (b) => b["채권지수 시세정보"].지수[0].YTM > 0 && b["채권지수 시세정보"].지수[0].총수익지수_종가 > 0, "[명세서 라벨: YTM·총수익지수_종가]");
+await call("krx_get_index_daily", { series: "KOSPI", bas_dd: "20261006", query: "코스피 200" }, (b) => b["KOSPI 시리즈 일별시세정보"].지수[0].상장시가총액 > 0, "[명세서 라벨: 상장시가총액]");
 await call("krx_get_etf_daily", { bas_dd: "20261006", index_query: "코스피 200", summary_only: true }, (b) => b.필터결과건수 > 0);
 await call("krx_get_bond_daily", { market: "ALL", bas_dd: "20261006", limit: 3 }, (b) => b.전체건수 === 336);
-await call("krx_get_bond_daily", { market: "KTS", bas_dd: "20261006" }, (b) => b.전체건수 === 10 && b.채권[0].만기년수);
+await call("krx_get_bond_daily", { market: "KTS", bas_dd: "20261006" }, (b) => b.전체건수 === 10 && b.채권[0].만기년수 && b.채권[0].종목구분 === "지표");
 await call("krx_get_commodity_daily", { bas_dd: "20261006" }, (b) => b["석유시장 일별매매정보"].length === 3 && b["금시장 일별매매정보"].length === 2 && b["배출권 시장 일별매매정보"].length === 19);
 
 // ── 시계열 ──

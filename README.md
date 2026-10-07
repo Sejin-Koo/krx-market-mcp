@@ -16,6 +16,8 @@ KRX OpenAPI(정보데이터시스템) 인증키 하나로 이용 승인된 **17�
 | `krx_get_timeseries` | 일별 API 14종 공통 | 종목·지수의 기간 시세(일/주/월) |
 | `krx_api_status` | — | 설정 상태·데이터셋 안내·전 API 실호출 점검 |
 
+필드별 명세서 설명과 서버 라벨 대조표: [docs/krx-api-fields.md](docs/krx-api-fields.md) (승인 17종 + 미승인 5종)
+
 ## 회사 수 집계 규칙
 
 - 회사 수 = 주식종류 `보통주` 종목 수
